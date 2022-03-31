@@ -81,7 +81,7 @@ func main() {
 			log.Fatal("Error getting configuration from ~/.aws/*: ", err)
 		}
 	} else if len(os.Args) > 2 {
-		log.Fatal("Usage: elastic-cluster-info [ <aws profile> ] \n \t With <aws profile> one of the previously set aws configurations in ~/.aws/* files. \n \t If no profile given, it picks the default one.")
+		log.Fatal("Usage: elastic-cluster-info [ <aws profile> ] \n \t With <aws profile> one from the previously set aws configurations in ~/.aws/* files. \n \t If no profile given, it picks the default one.")
 	}
 
 	client := elasticache.NewFromConfig(cfg)
