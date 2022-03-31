@@ -72,7 +72,16 @@ func updatedLastVersionEngines(client *elasticache.Client) LastVersionEngines {
 func main() {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error getting configuration from ~/.aws/*: ", err)
+	}
+
+	if len(os.Args) == 2 {
+		cfg, err = config.LoadDefaultConfig(context.TODO(), config.WithSharedConfigProfile(os.Args[1]))
+		if err != nil {
+			log.Fatal("Error getting configuration from ~/.aws/*: ", err)
+		}
+	} else if len(os.Args) > 2 {
+		log.Fatal("Usage: elastic-cluster-info [ <aws profile> ] \n \t With <aws profile> one of the previously set aws configurations in ~/.aws/* files. \n \t If no profile given, it picks the default one.")
 	}
 
 	client := elasticache.NewFromConfig(cfg)
