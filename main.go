@@ -91,6 +91,8 @@ func main() {
 
 	paginator := elasticache.NewDescribeCacheClustersPaginator(client, &elasticache.DescribeCacheClustersInput{})
 
+	var alreadyTaken = map[string]bool{}
+
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(context.TODO())
 		if err != nil {
@@ -121,7 +123,15 @@ func main() {
 			}
 			cluster.tags = &tags.TagList
 
-			clusters = append(clusters, cluster)
+			if elasticachecluster.ReplicationGroupId != nil {
+				if !alreadyTaken[*elasticachecluster.ReplicationGroupId] {
+					cluster.name = elasticachecluster.ReplicationGroupId
+					alreadyTaken[*elasticachecluster.ReplicationGroupId] = true
+					clusters = append(clusters, cluster)
+				}
+			} else {
+				clusters = append(clusters, cluster)
+			}
 		}
 	}
 
