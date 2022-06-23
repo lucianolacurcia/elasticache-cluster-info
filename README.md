@@ -3,8 +3,10 @@ Command line utility for getting and printing information about AWS ElasticCache
 You should have a credentials file stored in ~/.aws/credentials and at least a default profile configured, you can pass the profile you want to get clusters information about as parameter to the program.
 
 ## installation:
+```
 git clone this repo
 go build
+```
 
 ## Usage
 ```
